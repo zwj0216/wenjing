@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.BooksDao">
+
+	<select id="getBooksList" resultType="Books">
+	SELECT b.*,t.tname as tname FROM books b LEFT JOIN TYPE t ON t.tid=b.tid
+	</select>
+   <insert id="add">
+   insert into books(bname,bauthor,bprice,bpages,bfocus,tid) values(#{bname},#{bauthor},#{bprice},#{bpages},#{bfocus},#{tid})
+   </insert>
+   <delete id="delete">
+   delete from books where bid=#{bid}
+   </delete>
+   <select id="getObjectByBid" resultType="Books">
+   SELECT b.*,t.tid as tid FROM books b LEFT JOIN TYPE t ON t.tid=b.tid where bid=#{bid}
+   </select>
+   <update id="update">
+   update books 
+   <trim prefix="set" suffix="where bid=#{bid}" suffixOverrides=",">
+   bname= #{bname},bauthor = #{bauthor},bprice=#{bprice},bpages=#{bpages},bfocus=#{bfocus},tid=#{tid} 
+   </trim>
+   </update>
+</mapper>
